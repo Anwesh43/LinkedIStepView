@@ -187,4 +187,12 @@ class IStepView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+        fun create(activity: Activity) : IStepView {
+            val view : IStepView = IStepView(activity)
+            activity.setContentView(view)
+            return view
+        }
+    }
 }
