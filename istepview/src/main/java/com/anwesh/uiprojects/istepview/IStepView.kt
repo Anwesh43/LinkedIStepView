@@ -146,11 +146,12 @@ class IStepView(ctx : Context) : View(ctx) {
     }
 
     data class IStep(var i : Int) {
-        private var curr : ISNode = ISNode(0)
+        private var root : ISNode = ISNode(0)
+        private var curr : ISNode = root
         private var dir : Int = 1
 
         fun draw(canvas : Canvas, paint : Paint) {
-            curr.draw(canvas, paint)
+            root.draw(canvas, paint)
         }
 
         fun update(cb : (Int, Float) -> Unit) {
