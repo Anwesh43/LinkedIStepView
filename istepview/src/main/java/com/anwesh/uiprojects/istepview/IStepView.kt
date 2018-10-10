@@ -21,7 +21,7 @@ fun Canvas.drawISNode(i : Int, scale : Float, paint : Paint) {
     val size : Float = gap / 3
     paint.strokeCap = Paint.Cap.ROUND
     paint.strokeWidth = Math.min(w, h) / 60
-    paint.color = Color.parseColor("#00BCD4")
+    paint.color = Color.parseColor("#43A047")
     save()
     translate(gap * i + gap, h/2)
     for (j in 0..1) {
@@ -162,6 +162,27 @@ class IStepView(ctx : Context) : View(ctx) {
 
         fun startUpdating(cb : () -> Unit) {
             curr.startUpdating(cb)
+        }
+    }
+
+    data class Renderer(var view : IStepView) {
+        private val istep : IStep = IStep(0)
+        private val animator : Animator = Animator(view)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(Color.parseColor("#BDBDBD"))
+            istep.draw(canvas, paint)
+            animator.animate {
+                istep.update {i, scl ->
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            istep.startUpdating {
+                animator.start()
+            }
         }
     }
 }
