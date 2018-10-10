@@ -14,6 +14,27 @@ import android.content.Context
 
 val nodes : Int = 5
 
+fun Canvas.drawISNode(i : Int, scale : Float, paint : Paint) {
+    val w : Float = width.toFloat()
+    val h : Float = height.toFloat()
+    val gap = w / (nodes + 1)
+    val size : Float = gap / 3
+    paint.strokeCap = Paint.Cap.ROUND
+    paint.strokeWidth = Math.min(w, h) / 60
+    paint.color = Color.parseColor("#00BCD4")
+    save()
+    translate(gap * i + gap, h/2)
+    for (j in 0..1) {
+        val sc : Float = Math.min(0.5f, Math.max(0f, scale - 0.5f * j)) * 2
+        val sf : Float = 1f - 2 * j
+        save()
+        drawLine(0f, 0f, 0f, size * sf * sc, paint)
+        drawLine(-size/2, size * sf * sc, size/2, size * sf * sc, paint)
+        restore()
+    }
+    restore()
+}
+
 class IStepView(ctx : Context) : View(ctx) {
 
     private val paint : Paint = Paint(Paint.ANTI_ALIAS_FLAG)
