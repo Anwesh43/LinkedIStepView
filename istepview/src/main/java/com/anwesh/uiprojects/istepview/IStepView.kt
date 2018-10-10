@@ -30,4 +30,24 @@ class IStepView(ctx : Context) : View(ctx) {
         }
         return true
     }
+
+    data class State(var scale : Float = 0f, var dir : Float = 0f, var prevScale : Float = 0f) {
+
+        fun update(cb : (Float) -> Unit) {
+            scale += 0.05f * dir
+            if (Math.abs(scale - prevScale) > 1) {
+                this.scale = this.prevScale + this.dir
+                this.dir = 0f
+                this.prevScale = this.scale
+                cb(prevScale)
+            }
+        }
+
+        fun startUpdating(cb : () -> Unit) {
+            if (this.dir == 0f) {
+                this.dir = 1f - 2 * this.prevScale
+                cb()
+            }
+        }
+    }
 }
